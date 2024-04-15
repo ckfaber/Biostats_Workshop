@@ -1,0 +1,35 @@
+---
+title: "Introduction to R Studio"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+
+# 1.	R/RStudio windows
+# 2.	Set working directories: 
+# 3.	Some important options: remove, list etc. 
+# 4.	Construction of vectors, matrix, and data frames (with “Tibble” format)
+# 5.	Import data files (mainly csv and text files)
+# 6.	Data investigation: str, dim, name, etc
+# 7.	Data management using “dplyr” package: filter, arrange, select, mutate functions.
+
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
