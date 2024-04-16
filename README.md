@@ -1,4 +1,5 @@
 # Biostatistics Hands-On Workshop
 
-May 3, 2024
-Data Analysis for Neuroscience Research in R/R Studio
+Data Analysis for Neuroscience Research in R/R Studio  
+May 3, 2024  
+
