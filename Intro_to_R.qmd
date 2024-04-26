@@ -4,32 +4,256 @@ format: html
 editor: visual
 ---
 
-## Quarto
+# Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+This document is written in a Quarto Markdown (.qmd) file. It allows you to combine code with annotation and documentation that can be rendered to .pdf, .html, .doc, or even .ppt.
 
-## Running Code
+{r} indicates a code block. This will be recognized by R Studio as executable code. The rest of the text is recognized as Markdown, a text editing language that allows you to use specific **syntax** (e.g., #, ##, \*, \*\*) to control how your words appear in the rendered document.
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+# '\#' Header 1
+
+## '\##' Header 2
+
+*\* italic* \*
+
+**\*\* bold** \*\*
+
+Whether these characters are visible or not depends on whether you are in Source or Visual Editing Mode.
+
+## Your first code block
 
 ```{r}
-1 + 1
 
-# 1.	R/RStudio windows
-# 2.	Set working directories: 
-# 3.	Some important options: remove, list etc. 
-# 4.	Construction of vectors, matrix, and data frames (with “Tibble” format)
-# 5.	Import data files (mainly csv and text files)
-# 6.	Data investigation: str, dim, name, etc
-# 7.	Data management using “dplyr” package: filter, arrange, select, mutate functions.
+# Welcome to your first code block! 
+
+# Within a code block, and generally anywhere else in R that is outside of a .qmd or .md file, '#' means something different. 
+
+# Everything following a '#' is a COMMENT. Comments will not be executed. Use comments for the humans reading your code - including future You!
+
+# Comments are often helpful before a long code block, or after  individual lines to clarify the functionality of that code.
+```
+
+# Operators
+
+## Basic math in R
+
+**Operators** are used to perform operations on variables and values. R uses the default arithmetic operators you already know: **`+`**, **`-`**, **`*`**, **`/`**, **`^`**, **`%%`** (modulus), and **`%/%`** (integer division)
+
+```{r}
+
+# To run these, either type into the Console and hit Enter, or, if working with a script in the Editor window, typing Ctrl/Cmd + Enter will run the line where your cursor is located.
+
+1 + 1       # simple addition
+4 / 3       # division
+4 %% 3      # remainder
+4*2^2       # order of operations applies
+1e3         # 1 * 10^3
+log10(1e3)  # log base 10
+exp(3)      # e^3
+log(exp(3)) #ln(e^3)
+```
+
+## R assignment operators assign values to variables
+
+A variable is an object that will be saved to your R Environment that holds the values you assign it. While there are other ways to create a variable, it is best practice to use the left assignment operator, **`<-`**. You can see the values of your variables by looking in your Environment window, or by typing the variable name into the Console and hitting `Enter`.
+
+```{r}
+x  <- 2     # left assignment operator
+y  <- 4
+z  <- x*y^2
+z  <- x^2 * y^2
+a  <- 14
+
+# Check your assignments
+x
+y
+z
+
+# Immediately view variable values by wrapping the assignment expression in parentheses.
+(z <- (x*y)^2) 
+
+# Check what variables exist in your environment with ls()
+ls()
+
+# Remove a single variable with rm()
+rm(a)
+```
+
+## Data types
+
+Variables can contain different types of data. These include:
+
+-   `Numeric`: 14.5, 11.97
+
+-   `Integer`: 1L, 4L, 17L, where the letter L indicates an integer
+
+-   `Complex`: 1 + 4i, where i indicates the imaginary component
+
+-   `Character` / `string`: "Hello, world", "This is a string", "So is this."
+
+-   `Logical`: Boolean, `TRUE` or `FALSE`
+
+You can check what data type a variable is using the `class()` function.
+
+```{r}
+
+a <- 14.94
+class(a)
+
+a <- 14L # include L to coerce integer type
+class(a)
+
+a <- "14"
+class(a)
+
+a <- 14+1i # 1i gives i (sqrt(-1)); i alone will not be recognized
+class(a)
+
+a <- TRUE
+class(a)
+```
+
+## R comparison and logical operators
+
+Comparison operators aptly compare two values, giving an output of `TRUE` (numerically represented as `1`) or `FALSE` (numerically represented as `0`). They include: **`==`**, **`!=`**, **`>`**, **`<`**, **`>=`**, and **`<=`**. Use `&` or `|` to combine multiple comparisons.
+
+```{r}
+
+x == y # x is equal to y
+x != y # x is not equal to y
+x < y  # x is less than y
+(x < y) & (x < z) # x is less than y AND x is less than z
+(x == z) | (x < z) # x equals z OR x is less than z
+x <= z # more succinctly than above, x is less than or equal to z
+```
+
+## Other useful operators
+
+More often than not, you will be working with vectors, data frames, or lists, rather than variables containing a single value. A few useful operators for working with vectors are `:`, and `%in%`.
+
+```{r}
+
+x <- 1:10   # creates a vector sequence
+4 %in% x    # finds whether element is within vector - returns boolean
+```
+
+# Functions and Packages
+
+## Functions
+
+A function is a present command that automatically performs a specific process or task on inputs (also known as `arguments`). To call a function, enter the function name followed by parentheses. Let's start with one that takes no arguments, `getwd()`. `getwd()` (for get working directory) tells you where your current R session is running within your file system.
+
+```{r}
+#| echo: FALSE
+getwd() # get current working directory
+getwd # notice what happens when you forget the parentheses
+```
+
+You can change your working directory with setwd(), but we won't go into that too much just yet.
+
+```{r, eval = FALSE}
+my_directory <- "C:\\file\\path\\here"
+setwd(my_directory)
+```
+
+Most functions require arguments, however. Let's learn another useful function `c()`, to combine values into a vector, then get some information about the vector with range, length,
+
+```{r}
+
+my_vector <- c(4,15,9,3,4)
+my_vector
+length(my_vector)
+range(my_vector)
+summary(my_vector)
+```
+
+R is very powerful in working with vectors. Most functions in R are optimally employed with vectors.
+
+```{r}
+my_new_vector <- 4*my_vector
+my_new_vector
+```
+
+## Getting help
+
+Getting help in R is **easy**. If you don't understand how a function works, or what its arguments and outputs are, simply enter `?function`.
+
+This will open the Help panel, where you can read the R Documentation.
+
+```{r, eval=FALSE}
+
+?getwd()
+```
+
+![](Figures/Help-Window.png){fig-align="center"}
+
+## Packages
+
+Packages are a collection of functions that you can save to your device in a library. Packages increase the power of R by organizing and annotating base R functions that perform similar tasks. There are *thousands* of packages available (and more every day). Most packages are available through the Comprehensive R Archive Network (CRAN) [here](https://cran.r-project.org/web/packages/available_packages_by_name.html). Many packages (and their source code) are also published by their authors on GitHub.
+
+Check which packages you already have with `library()`, or navigate to the Packages tab in the . Load a specific package with `library(package_name)`. Install a new package from CRAN with `install.packages("package_name")`. See where your packages are saved on your device with `.libPaths()`.
+
+```{r}
+
+library() # check your already installed packages
+.libPaths() # check the file path(s) where your packages are installed
 
 ```
 
-You can add options to executable code like this
+Let's install and load the [tidyverse](https://www.tidyverse.org/), a collection of packages that you will likely use heavily in your R journey. The Tidyverse is my personal favorite collection of functions, with excellent and intuitive functionality and thorough documentation.
 
 ```{r}
-#| echo: false
-2 * 2
+install.packages("tidyverse") 
+library(tidyverse)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Working with Data
+
+## Using built-in datasets
+
+```{r}
+
+# will include examples of how to find/load free datasets for practice (e.g., mtcars, nycflights13, diamonds, etc)
+```
+
+## Creating vectors and data frames
+
+Define data frames here
+
+```{r}
+
+x <- 1:10
+y <- x^2
+
+(df <- data.frame(x,y))
+
+# Data frames can hold multiple data types. Let's show this by adding another column to a new df - see if you can use the Help documentation to understand how this works! 
+z <- sample(LETTERS,10,replace=TRUE)
+(df <- data.frame(x,y,z))
+```
+
+## Exploratory data analysis
+
+Introduce exploratory analysis here
+
+```{r}
+
+# indexing data frames w/ [] $ 
+
+# dim(), str(), names()
+
+# adding column to dataframe using df[] <- new_col
+
+# time permitting, introduce tidyverse analogs
+```
+
+## Loading external data
+
+brief explain...most often you will be working with data saved in a spreadsheet or text document...
+
+```{r}
+
+# read.csv() vs. read_csv()
+# read.table() vs. read_table()
+# other packages for google sheets, .xls, etc.
+```
