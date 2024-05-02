@@ -2,11 +2,12 @@
 title: "Introduction to R Studio"
 format: html
 editor: visual
+author: "Chelsea L. Faber, PhD"
 ---
 
 # Introduction
 
-This document is written in a Quarto Markdown (.qmd) file. It allows you to combine code with annotation and documentation that can be rendered to .pdf, .html, .doc, or even .ppt.
+This document is written in a Quarto Markdown (.qmd) file. It allows you to combine code with annotation and documentation that can be rendered to .pdf, .html, .doc, or even .ppt, for publishing.
 
 {r} indicates a code block. This will be recognized by R Studio as executable code. The rest of the text is recognized as Markdown, a text editing language that allows you to use specific **syntax** (e.g., #, ##, \*, \*\*) to control how your words appear in the rendered document.
 
@@ -21,6 +22,14 @@ This document is written in a Quarto Markdown (.qmd) file. It allows you to comb
 Whether these characters are visible or not depends on whether you are in Source or Visual Editing Mode.
 
 ## Your first code block
+
+The section below is a **code block**. This means that it contains code that will be recognized and executed by R if you run it. There are a few ways to run code contained within this document:
+
+1.  Click the green arrow in the top right of the code block to run the entire chunk at once.
+
+2.  Place your cursor anywhere on a single line you would like to run and type `Ctrl` / `Cmd + Enter`.
+
+3.  Copy and paste the content of the code block into your R console and type `Enter`.
 
 ```{r}
 
@@ -423,9 +432,6 @@ If you downloaded this .Rproj and opened it in your R session, you should have a
 
 ```{r}
 dir()
-
-# read.table() vs. read_table()
-# other packages for google sheets, .xls, etc.
 ```
 
 Let's clear our Environment then load the data in "example.csv" with the `read.csv()` function. (Note: the Tidyverse `readr` package provides an analogous function, `readr::read_csv()`, to load data as a `tibble()`, a tidyverse-specific type of data structure you can read about with `?tibble`.
