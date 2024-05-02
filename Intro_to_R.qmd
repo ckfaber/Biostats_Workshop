@@ -32,14 +32,16 @@ The section below is a **code block**. This means that it contains code that wil
 3.  Copy and paste the content of the code block into your R console and type `Enter`.
 
 ```{r}
-
 # Welcome to your first code block! 
 
-# Within a code block, and generally anywhere else in R that is outside of a .qmd or .md file, '#' means something different. 
+# Within a code block, and generally anywhere else in R that is outside of a 
+# .qmd or .md file, '#' means something different. 
 
-# Everything following a '#' is a COMMENT. Comments will not be executed. Use comments for the humans reading your code - including future You!
+# Everything following a '#' is a COMMENT. Comments will not be executed. 
+# Use comments for the humans reading your code - including future You!
 
-# Comments are often helpful before a long code block, or after  individual lines to clarify the functionality of that code.
+# Comments are often helpful before a long code block, or after  individual lines
+# to clarify the functionality of that code.
 ```
 
 # Operators
@@ -50,7 +52,9 @@ The section below is a **code block**. This means that it contains code that wil
 
 ```{r}
 
-# To run these, either type into the Console and hit Enter, or, if working with a script in the Editor window, typing Ctrl/Cmd + Enter will run the line where your cursor is located.
+# To run these, either type into the Console and hit Enter, or, if working with a
+# script in the Editor window, typing Ctrl/Cmd + Enter will run the line where 
+# your cursor is located.
 
 1 + 1       # simple addition
 4 / 3       # division
