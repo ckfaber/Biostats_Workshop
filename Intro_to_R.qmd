@@ -68,16 +68,130 @@ a  <- 14
 x
 y
 z
-
-# Immediately view variable values by wrapping the assignment expression in parentheses.
-(z <- (x*y)^2) 
-
-# Check what variables exist in your environment with ls()
-ls()
-
-# Remove a single variable with rm()
-rm(a)
 ```
+
+Immediately print new variables to the console at creation by wrapping the assignment expression in parentheses `()`.
+
+```{r}
+(z <- (x*y)^2) 
+```
+
+You can check what variables exist in your environment with `ls()`.
+
+```{r}
+ls()
+```
+
+Use the `rm()` function to remove variables from your environment. Use `rm(list = ls())` to remove all variables.
+
+```{r}
+rm(a) # remove a single variable
+```
+
+## R comparison and logical operators
+
+Comparison operators aptly compare two values, giving an output of `TRUE` (numerically represented as `1`) or `FALSE` (numerically represented as `0`). They include: **`==`**, **`!=`**, **`>`**, **`<`**, **`>=`**, and **`<=`**. Use `&` or `|` to combine multiple comparisons.
+
+```{r}
+x == y # x is equal to y
+x != y # x is not equal to y
+x < y  # x is less than y
+(x < y) & (x < z) # x is less than y AND x is less than z
+(x == z) | (x < z) # x equals z OR x is less than z
+x <= z # more succinctly than above, x is less than or equal to z
+```
+
+## Other useful operators
+
+More often than not, you will be working with vectors, data frames, or lists, rather than variables containing a single value. A few useful operators for working with vectors are `:`, and `%in%`.
+
+```{r}
+x <- 1:10   # creates a vector sequence
+4 %in% x    # finds whether element is within vector - returns boolean
+```
+
+# Functions and Packages
+
+## Functions
+
+A function is a preset command that automatically performs a specific process or task on inputs you designate (also known as `arguments`). To call a function, enter the function name followed by parentheses. Let's start with one that takes no arguments, `getwd()`. `getwd()` (for get working directory) tells you where your current R session is running within your file system.
+
+```{r}
+getwd() # get current working directory
+getwd # notice what happens when you forget the parentheses
+```
+
+You can change your working directory with `setwd()`, but we won't go into that too much just yet. Just know that it is important for you to explicitly tell R where to look for files.
+
+```{r, eval = FALSE}
+my_directory <- "C:\\file\\path\\here"
+setwd(my_directory)
+```
+
+Most functions require arguments, however. Let's learn another useful function `c()`, to combine values into a vector, then get some information about the vector with `range()`, `length()`, and `summary()`.
+
+```{r}
+my_vector <- c(4,15,9,3,4)
+my_vector
+length(my_vector)
+range(my_vector)
+summary(my_vector)
+```
+
+R is very powerful in working with vectors. Most functions in R are optimally employed with vectors.
+
+```{r}
+my_new_vector <- 4*my_vector
+my_new_vector
+```
+
+## Getting help
+
+Getting help in R is easy. If you don't understand how a function works, or what its arguments and outputs are, simply enter `?function`.
+
+This will open the Help panel, where you can read the R Documentation.
+
+```{r, eval=FALSE}
+
+?getwd()
+```
+
+![](Figures/Help-Window.png){fig-align="center"}
+
+## Packages
+
+Packages are a collection of functions that you can save to your device in a library. Packages increase the power of R by organizing and annotating base R functions that perform similar tasks. There are *thousands* of packages available (and more every day). Most packages are available through the Comprehensive R Archive Network (CRAN) [here](https://cran.r-project.org/web/packages/available_packages_by_name.html). Many packages (and their source code) are also published by their authors on GitHub.
+
+Check which packages you already have with `library()`, or navigate to the Packages tab of the Help pane.. Load a specific package with `library(package_name)`. Install a new package from CRAN with `install.packages("package_name")`. See where your packages are saved on your device with `.libPaths()`.
+
+```{r}
+library() # check your already installed packages
+.libPaths() # check the file path(s) where your packages are installed
+```
+
+Let's install and load the [tidyverse](https://www.tidyverse.org/), a collection of packages that you will likely use heavily in your R journey. The Tidyverse is my personal favorite collection of functions, with excellent and intuitive functionality and thorough documentation.
+
+Install packages with the `install.packages()` function.
+
+```{r, eval=FALSE}
+install.packages("tidyverse") 
+```
+
+This command downloads and saves all of the functions within the Tidyverse collection of packages into your R package library. **In order to use a certain package's functions during your R session, you have to tell R explicitly to load them** with the `library()` function, with the name of the package as an argument.
+
+```{r}
+library(tidyverse) # load tidyverse
+```
+
+R prints some helpful information in the console that confirms you have loaded the package, and warnings (under **Conflicts**) about altered functionality that may occur. This is usually due to *shared function names* between base R and a loaded package. **The most recently loaded function will supersede ("mask") a previously loaded function.**
+
+**When you begin writing your own functions, it is best practice to give your functions unique names to avoid conflicts.**
+
+You now have access to the hundreds of useful functions within the tidyverse collection of packages. A good place to find what functions you have is in the Packages \> Library tab. Alternatively, you can find these in the console with `lsf.str("package:your-package-here")`, but this output is less readable. You can generally rely on finding helpful documentation for most packages online.
+
+# Working with Data
+
+Now that we've learned some of the basics of working in R, let's talk about how to work with data. There are 5 main data types in R:
 
 ## Data types
 
@@ -96,132 +210,103 @@ Variables can contain different types of data. These include:
 You can check what data type a variable is using the `class()` function.
 
 ```{r}
-
-a <- 14.94
-class(a)
-
-a <- 14L # include L to coerce integer type
-class(a)
-
-a <- "14"
-class(a)
-
-a <- 14+1i # 1i gives i (sqrt(-1)); i alone will not be recognized
-class(a)
-
-a <- TRUE
+a <- 14.94 
+class(a)  
+a <- 14L # include L to coerce integer type 
+class(a)  
+a <- "14" 
+class(a)  
+a <- 14+1i # 1i gives i (sqrt(-1)); i alone will not be recognized 
+class(a)  
+a <- TRUE 
 class(a)
 ```
 
-## R comparison and logical operators
+## Data Structures
 
-Comparison operators aptly compare two values, giving an output of `TRUE` (numerically represented as `1`) or `FALSE` (numerically represented as `0`). They include: **`==`**, **`!=`**, **`>`**, **`<`**, **`>=`**, and **`<=`**. Use `&` or `|` to combine multiple comparisons.
+Next, let's go over a few ways to enter data directly into R. It's very useful to learn how to run analyses on smaller (simulated or real) datasets before applying methods to your larger dataset.
+
+### Vectors
+
+A **vector** is a one-dimensional data structure that contains a single data type. As you learned already, you can create vectors with `c()` or with the `:` operator.
+
+```{r}
+my_vector <- 1:10
+class(my_vector)
+(my_vector2 <- c("string1","string2",4))
+```
+
+Notice that if you check the class of `my_vector2`, it is "character". Because vectors can only contain one data type, the 3rd item is coerced to being a character vector. If you want to store multiple data types in one R object, **lists** serve that purpose (see below).
+
+### Matrices
+
+A matrix is a two-dimensional data structure for a single data type. Let's create an empty 3x4 matrix with the `matrix()` function.
 
 ```{r}
 
-x == y # x is equal to y
-x != y # x is not equal to y
-x < y  # x is less than y
-(x < y) & (x < z) # x is less than y AND x is less than z
-(x == z) | (x < z) # x equals z OR x is less than z
-x <= z # more succinctly than above, x is less than or equal to z
+matrix(nrow = 3, ncol = 4)
 ```
 
-## Other useful operators
-
-More often than not, you will be working with vectors, data frames, or lists, rather than variables containing a single value. A few useful operators for working with vectors are `:`, and `%in%`.
+This first matrix is empty, as indicated by the `NA`s - R's shorthand for missing ("Not Available") values. If you read the R documentation on matrices, you'll notice that we skipped over the first argument, `data`, that accepts a data vector. Let's use the data argument to make a matrix with values from `my_vector`.
 
 ```{r}
-
-x <- 1:10   # creates a vector sequence
-4 %in% x    # finds whether element is within vector - returns boolean
+matrix(my_vector,nrow=2,ncol=5)
 ```
 
-# Functions and Packages
-
-## Functions
-
-A function is a present command that automatically performs a specific process or task on inputs (also known as `arguments`). To call a function, enter the function name followed by parentheses. Let's start with one that takes no arguments, `getwd()`. `getwd()` (for get working directory) tells you where your current R session is running within your file system.
+Note that the values are distributed column-wise by default. Use the `byrow` argument to fill values row-wise.
 
 ```{r}
-#| echo: FALSE
-getwd() # get current working directory
-getwd # notice what happens when you forget the parentheses
+matrix(my_vector,nrow=2,ncol=5,byrow=TRUE)
 ```
 
-You can change your working directory with setwd(), but we won't go into that too much just yet.
-
-```{r, eval = FALSE}
-my_directory <- "C:\\file\\path\\here"
-setwd(my_directory)
-```
-
-Most functions require arguments, however. Let's learn another useful function `c()`, to combine values into a vector, then get some information about the vector with range, length,
+Another useful way to create matrices is by combining vectors together by row, with `rbind()` or by column, with `cbind()`.
 
 ```{r}
+# First, let's clean up our Environment
+rm(list = ls())
 
-my_vector <- c(4,15,9,3,4)
-my_vector
-length(my_vector)
-range(my_vector)
-summary(my_vector)
+# Create a vector with random values from standard normal distribution
+a <- rnorm(10)
+b <- (a^2)/4
+
+# Combine row-wise
+(byrow <- rbind(a,b))
+
+# Combine column-wise
+(bycol <- cbind(a,b))
 ```
 
-R is very powerful in working with vectors. Most functions in R are optimally employed with vectors.
+Notice how the rows and columns are labeled. You can get this with the `rownames()` and `colnames()` functions. You can use these functions to change row and/or column names, as well.
 
 ```{r}
-my_new_vector <- 4*my_vector
-my_new_vector
+rownames(byrow)
+colnames(bycol)
+colnames(bycol) <- c("Variable1","Variable2")
+bycol
 ```
 
-## Getting help
+### Lists
 
-Getting help in R is **easy**. If you don't understand how a function works, or what its arguments and outputs are, simply enter `?function`.
-
-This will open the Help panel, where you can read the R Documentation.
-
-```{r, eval=FALSE}
-
-?getwd()
-```
-
-![](Figures/Help-Window.png){fig-align="center"}
-
-## Packages
-
-Packages are a collection of functions that you can save to your device in a library. Packages increase the power of R by organizing and annotating base R functions that perform similar tasks. There are *thousands* of packages available (and more every day). Most packages are available through the Comprehensive R Archive Network (CRAN) [here](https://cran.r-project.org/web/packages/available_packages_by_name.html). Many packages (and their source code) are also published by their authors on GitHub.
-
-Check which packages you already have with `library()`, or navigate to the Packages tab in the . Load a specific package with `library(package_name)`. Install a new package from CRAN with `install.packages("package_name")`. See where your packages are saved on your device with `.libPaths()`.
+Lists are a more flexible way to store data of multiple types and dimensions. Each element in a list can store any type of R object.
 
 ```{r}
-
-library() # check your already installed packages
-.libPaths() # check the file path(s) where your packages are installed
-
+(my_first_list <- list(a,b,bycol,byrow))
 ```
 
-Let's install and load the [tidyverse](https://www.tidyverse.org/), a collection of packages that you will likely use heavily in your R journey. The Tidyverse is my personal favorite collection of functions, with excellent and intuitive functionality and thorough documentation.
+The elements of your list can be named. Extract and replace names with the `names()` function.
 
 ```{r}
-install.packages("tidyverse") 
-library(tidyverse)
+names(my_first_list) <- c("Vector_a","Vector_b","bycol","byrow")
+my_first_list
 ```
 
-# Working with Data
+Notice how now, printing `my_first_list` to the console shows the new names next to the `$` operator. We'll get to what `$` does in the **Indexing** section below.
 
-## Using built-in datasets
+### Data Frames
 
-```{r}
-
-# will include examples of how to find/load free datasets for practice (e.g., mtcars, nycflights13, diamonds, etc)
-```
-
-## Creating vectors and data frames
-
-Define data frames here
+Data frames, created with the `data.frame()` function, is a specialized list that can hold multiple data types, but requires each element to have the same length.
 
 ```{r}
-
 x <- 1:10
 y <- x^2
 
@@ -229,31 +314,126 @@ y <- x^2
 
 # Data frames can hold multiple data types. Let's show this by adding another column to a new df - see if you can use the Help documentation to understand how this works! 
 z <- sample(LETTERS,10,replace=TRUE)
-(df <- data.frame(x,y,z))
+(df <- cbind(df,z))
 ```
 
-## Exploratory data analysis
+## Indexing
 
-Introduce exploratory analysis here
+Indexing is a way to access or replace values contained in vectors, matrices, data tables, or lists. Remember the `$` operator we saw above? If you read the Extract documentation from running `help('$')`, R gives you a long list of possible ways to use an extract operator, including `x[i]`, `x[i,j]`, `x[[i,j,]]`, and `x$name`.
+
+The `$` operator allows us to select an element of a list or data frame by name. Type `df$` in your console window. You should see a list of available options (in alphabetical order) to auto complete this expression. You probably noticed that the options are all the column names of `df`. Hit `Tab` then `Enter` to execute the first one.
 
 ```{r}
+df$x
+```
 
-# indexing data frames w/ [] $ 
+Whereas `$` selects elements by name, `[]` selects elements by position. With a one-dimensional vector, `[i]` gives the *i*th term. You can combine indexing with `:` or `c()` to select multiple values, or with the assignment operator `<-` to replace specific elements.
 
-# dim(), str(), names()
+```{r}
+# Get the 4th element of vector a
+a[4]
 
-# adding column to dataframe using df[] <- new_col
+# Select 1st, 8th, 9th values
+a[c(1,8,9)]
 
-# time permitting, introduce tidyverse analogs
+# Select the 2nd to last value
+a[length(a)-1]
+
+# Replace the 4th element with a new value
+a[4] <- 9
+a
+```
+
+With a two-dimensional matrix or data frame, `[i,j]` returns a vector containing the value in row *i*, column *j*. If you leave *i* or *j* blank (e.g., `[i,]` or `[,j]`), R will return the entire *i*th row or *j*th column. Let's use this to get some specific values from our data frame, `df`.
+
+```{r}
+df[,] # return all rows and all columns
+
+df[2,] # return all columns in the second row
+
+df[,3] # return all rows in the the third column
+
+df[1,3] # return the third values of the first row
+```
+
+Double brackets `[[]]` are a slightly more complicated way to index and are most useful when working with lists. Let's learn by example by indexing the first element of `my_first_list`:
+
+```{r}
+my_first_list[1]
+my_first_list[[1]]
+```
+
+Can you see the difference in the console output? Hint: try checking the `class()` and `length()` of these outputs:
+
+```{r}
+class(my_first_list[1])
+length(my_first_list[1])
+class(my_first_list[[1]])
+length(my_first_list[[1]])
+```
+
+`my_first_list[1]` returns the 1st list item of `my_first_list`, but `my_first_list[[1]]` returns the *contents* of that list item. This is a very important distinction, so be sure you know which behavior is appropriate for your indexing goals.
+
+# Data Exploration
+
+## Using built-in datasets
+
+As a beginneR, it's very useful to learn how to work with data using some of R's many built-in datasets for practice. Get a list of built-in datasets with `data()`.
+
+Let's learn more about data frames by playing with the built-in `mtcars` dataset. Print it out in your console to view the contents of this data frame. (You can also see a more full view with the `View()` function.)
+
+```{r}
+mtcars
+```
+
+Let's get some more information on the mtcars dataset by using the `?` operator to get help.
+
+```{r,eval=FALSE}
+?mtcars
+```
+
+![](Figures/BiostatsWorkshop_mtcars.png)
+
+How else can we get information about the structure and content of data frames? A few useful functions to know are: `str()`, for getting the structure of an R object, `head()` and `tail()` for getting the first and last n (default 6) rows, `names()`, for getting names of an R object (column names, list item names), and `dim()`, for getting row x column dimensions of an R matrix, array, or data frame.
+
+Let's try each of these below:
+
+```{r}
+class(mtcars)
+head(mtcars)
+tail(mtcars)
+str(mtcars)
+names(mtcars)
+dim(mtcars)
+```
+
+You can get a quick view of the relationship between two variables by plotting. We don't have time to get into the nitty gritty of the many ways to generate plots in R, so I suggest reading up on the `ggplot2` package (conveniently, part of your tidyverse installation). For very quick quality checks, the base `plot()` function is a convenient way to see relationships between x and y variables.
+
+Let's plot vehicle weight (`wt`) against miles per gallon (`mpg`) in the `mtcars` dataset.
+
+```{r}
+plot(x = mtcars$wt, y = mtcars$mpg)
 ```
 
 ## Loading external data
 
-brief explain...most often you will be working with data saved in a spreadsheet or text document...
+Most data analysis requires working with data saved in a spreadsheet or text document. Loading your data into R is quick and easy - provided you tell R the correct location to look on your device!
+
+If you downloaded this .Rproj and opened it in your R session, you should have an "example.csv" file saved in your project repository. You can confirm this in your file explorer, or within R by navigating to the Files tab of the help pane. You can also confirm you are in an active project folder with `getwd()`. Print the contents of your current directory with `dir()`.
 
 ```{r}
+dir()
 
-# read.csv() vs. read_csv()
 # read.table() vs. read_table()
 # other packages for google sheets, .xls, etc.
 ```
+
+Let's clear our Environment then load the data in "example.csv" with the `read.csv()` function. (Note: the Tidyverse `readr` package provides an analogous function, `readr::read_csv()`, to load data as a `tibble()`, a tidyverse-specific type of data structure you can read about with `?tibble`.
+
+```{r}
+rm(list=ls())
+df <- read.csv("example.csv")
+str(df)
+```
+
+Other useful functions for loading data in .txt files are `read.table()` and `readr::read_table()`. Functions for loading data from Google Sheets are provided by the `googlesheets4` package, and functions for .xls and .xlsx files by the `readxl` package.
